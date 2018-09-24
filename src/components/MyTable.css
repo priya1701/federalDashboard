@@ -1,0 +1,19 @@
+/* table {
+  border-spacing: 0;
+}
+
+body {
+  margin: 40px auto;
+  max-width: 752px;
+  line-height: 1.6;
+  font-size: 18px;
+  color: #444;
+  padding: 0 10px
+} */
+
+.Table-header {
+  background-color: #ccc;
+  color: rgb(255, 51, 0);
+  padding: 10px;
+  text-align: left;
+}
