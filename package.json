@@ -1,9 +1,10 @@
 {
-  "name": "contacts-manager",
+  "name": "federal-dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
+    "material-ui": "^0.20.2",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.32.1",
@@ -12,7 +13,7 @@
     "react-json-table": "^0.1.1"
   },
   "devDependencies": {
-    "react-scripts": "1.0.17"
+    "react-scripts": "^1.1.5"
   },
   "scripts": {
     "start": "PORT=4200 react-scripts start",
