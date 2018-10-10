@@ -7,20 +7,28 @@ import Table from '../components/TableComp/MyTable';
 class TableWithFilterData extends Component {
   constructor(props){
       super(props);
-      this.onChangeName = this.onChangeName.bind(this);
+      this.onChangeFirstName = this.onChangeFirstName.bind(this);
+      this.onChangeLastName = this.onChangeLastName.bind(this);
       this.onChangeHotel = this.onChangeHotel.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.state = {
         Guests: [],
-        name:'',
+        firstName:'',
+        lastName:'',
         hotel:''
       };
   }
   
   
-  onChangeName(e){
+  onChangeFirstName(e){
     this.setState({
-        name: e.target.value
+      firstName: e.target.value
+    });
+   }
+
+   onChangeLastName(e){
+    this.setState({
+      lastName: e.target.value
     });
    }
 
@@ -37,11 +45,14 @@ class TableWithFilterData extends Component {
         const newGuests = response.data.map(c => {
           return {
             guestId: c.guestId,
-            name: c.name,
+            firstName: c.firstName,
+            lastName: c.lastName,
             type: c.type,
+            nationality: c.nationality,
+            hotel: c.hotel,
             checkIn:c.checkIn,
             checkOut: c.checkOut,
-            hotel: c.hotel
+            verified: c.verified
           };
         });
 
@@ -63,11 +74,13 @@ class TableWithFilterData extends Component {
     //   this.setState(filteredData);
     var urlString;
     var res;
-    if((this.state.name.length)&&(this.state.hotel.length)){
-      urlString = '{"where" :{"name" :"'+this.state.name+'","hotel":"'+this.state.hotel+'"}}';
+    if((this.state.firstName.length)&&(this.state.lastName.length)&&(this.state.hotel.length)){
+      urlString = '{"where" :{"firstName" :"'+this.state.firstName+'","lastName" :"'+this.state.lastName+'","hotel":"'+this.state.hotel+'"}}';
       
-    }else if(this.state.name.length){
-        urlString = '{"where" :{"name" :"'+this.state.name+'"}}';
+    }else if(this.state.firstName.length){
+        urlString = '{"where" :{"firstName" :"'+this.state.firstName+'"}}';
+    }else if(this.state.lastName.length){
+      urlString = '{"where" :{"lastName" :"'+this.state.lastName+'"}}';
     }else if(this.state.hotel.length){
         urlString = urlString = '{"where" :{"hotel":"'+this.state.hotel+'"}}';
     }else{
@@ -82,11 +95,14 @@ class TableWithFilterData extends Component {
         const filteredGuests = response.data.map(c => {
           return {
             guestId: c.guestId,
-            name: c.name,
+            firstName: c.firstName,
+            lastName: c.lastName,
             type: c.type,
+            nationality: c.nationality,
+            hotel: c.hotel,
             checkIn:c.checkIn,
             checkOut: c.checkOut,
-            hotel: c.hotel
+            verified: c.verified
           };
         });
 
@@ -108,14 +124,16 @@ class TableWithFilterData extends Component {
   render() {
     return (            
         <div>
-        <div xs={12} sm={12} md={3}>
-        <input type="text" placeholder="Guest Name" value={this.state.name} onChange={this.onChangeName}/>              
-        </div>
-        <div xs={12} sm={12} md={3}>
+        <div style={{ height: 50}}>
+        <div xs={12} sm={12} md={3} style={{display:'inline'}}>
+        <input type="text" placeholder="First Name" value={this.state.firstName} onChange={this.onChangeFirstName}/>              
+       
+        <input type="text" placeholder="Last Name" value={this.state.lastName} onChange={this.onChangeLastName}/>              
+        
         <input type="text" placeholder="Hotel Name" value={this.state.hotel} onChange={this.onChangeHotel}/>
-        </div>
-        <div xs={12} sm={12} md={3}>
+        
         <input type="button" value="Submit" onClick={this.onSubmit}/>
+        </div>
         </div>
         <Table data={this.state.Guests}/>
         </div>

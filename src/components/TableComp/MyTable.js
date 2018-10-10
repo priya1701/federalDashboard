@@ -12,11 +12,17 @@ class Table extends Component {
           <TableHeaderColumn isKey dataField='guestId' dataAlign="center">
           Guest ID
           </TableHeaderColumn>
-          <TableHeaderColumn dataField='name' dataAlign="center">
-          Name
+          <TableHeaderColumn dataField='firstName' dataAlign="center">
+          First Name
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='lastName' dataAlign="center">
+          Last Name
           </TableHeaderColumn>
           <TableHeaderColumn dataField='type' dataAlign="center">
           Document Type
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='nationality' dataAlign="center">
+          Nationality
           </TableHeaderColumn>
           <TableHeaderColumn dataField='hotel' dataAlign="center">
           Hotel Name
@@ -26,6 +32,9 @@ class Table extends Component {
           </TableHeaderColumn>
           <TableHeaderColumn dataField='checkOut' dataAlign="center">
           Check Out Time
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='verified' dataAlign="center">
+          Verified
           </TableHeaderColumn>
         </BootstrapTable>
       </div>
