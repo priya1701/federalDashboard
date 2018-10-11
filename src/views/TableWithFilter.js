@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 
 import axios from "axios";
+import {Glyphicon} from 'react-bootstrap';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import '../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 
-import Table from '../components/TableComp/MyTable';
+//import Table from 'components/TableComp/MyTable';
+import './dataTable.css';
 
 class TableWithFilterData extends Component {
   constructor(props){
@@ -11,6 +15,7 @@ class TableWithFilterData extends Component {
       this.onChangeLastName = this.onChangeLastName.bind(this);
       this.onChangeHotel = this.onChangeHotel.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
+      this.cellButton = this.cellButton.bind(this);
       this.state = {
         Guests: [],
         firstName:'',
@@ -18,6 +23,86 @@ class TableWithFilterData extends Component {
         hotel:''
       };
   }
+
+  onClickVerified(cell, row, rowIndex){
+    const id=row.guestId;
+    console.log("rowww", id);
+  
+    axios.get("http://138.68.51.48:3000/api/guest/"+id)
+    .then(resp=>
+      
+      {
+        console.log("RESpppp", resp.data);
+        var newGuest = {
+            firstName: resp.data.firstName,
+            lastName: resp.data.lastName,
+            type: resp.data.type,
+            nationality: resp.data.nationality,
+            hotel: resp.data.hotel,
+            checkIn:resp.data.checkIn,
+            checkOut: resp.data.checkOut,
+            verified: resp.data.verified
+        }
+        console.log("StatebyId Before ",newGuest );
+        newGuest.verified="VERIFIED";
+        console.log("StatebyId  ",newGuest );
+        axios.put("http://138.68.51.48:3000/api/guest/"+id, newGuest)
+        .then(res => console.log(res.data));
+  
+      });
+  }
+
+
+  onClickRejected(cell, row, rowIndex){
+    const id=row.guestId;
+  
+    axios.get("http://138.68.51.48:3000/api/guest/"+id)
+    .then(resp=>
+      {
+        var newGuest = {
+            firstName: resp.data.firstName,
+            lastName: resp.data.lastName,
+            type: resp.data.type,
+            nationality: resp.data.nationality,
+            hotel: resp.data.hotel,
+            checkIn:resp.data.checkIn,
+            checkOut: resp.data.checkOut,
+            verified: resp.data.verified
+        }
+        console.log("StatebyId  ",newGuest );
+        newGuest.verified="REJECECTED";
+        console.log("StatebyId  ",newGuest );
+        axios.put("http://138.68.51.48:3000/api/guest/"+id, newGuest)
+        .then(res => console.log(res.data));
+  
+      });
+   }
+  
+   cellButton(cell, row, enumObject, rowIndex) {
+     return (
+      <div className="btn-group">
+        <button 
+           type="button" 
+           id="verify"
+           onClick={() => 
+           this.onClickVerified(cell, row, rowIndex)}
+        >
+        <Glyphicon glyph="ok" />
+        </button>
+        <button 
+           type="button" 
+           id="reject"
+           onClick={() => 
+           this.onClickRejected(cell, row, rowIndex)}
+        >
+        <Glyphicon glyph="remove" />
+        </button>
+      </div>
+     )
+  }
+
+
+
   
   
   onChangeFirstName(e){
@@ -124,18 +209,52 @@ class TableWithFilterData extends Component {
   render() {
     return (            
         <div>
-        <div style={{ height: 50}}>
-        <div xs={12} sm={12} md={3} style={{display:'inline'}}>
+        <div style={{ margin: 20}}>
+        <div xs={12} sm={12} md={3} style={{padding: 15, display:'inline'}}>
         <input type="text" placeholder="First Name" value={this.state.firstName} onChange={this.onChangeFirstName}/>              
-       
+        </div>
+        <div xs={12} sm={12} md={3} style={{padding: 15, display:'inline'}}>
         <input type="text" placeholder="Last Name" value={this.state.lastName} onChange={this.onChangeLastName}/>              
-        
+        </div>
+        <div xs={12} sm={12} md={3} style={{padding: 15, display:'inline'}}>
         <input type="text" placeholder="Hotel Name" value={this.state.hotel} onChange={this.onChangeHotel}/>
-        
-        <input type="button" value="Submit" onClick={this.onSubmit}/>
+        </div>
+        <div xs={12} sm={12} md={3} style={{padding: 15, display:'inline'}}>
+        <input className="btn btn-primary" type="button" value="Submit" onClick={this.onSubmit}/>
         </div>
         </div>
-        <Table data={this.state.Guests}/>
+        <BootstrapTable data={this.state.Guests} striped={true}>
+          <TableHeaderColumn isKey dataField='guestId' dataAlign="center">
+          Guest ID
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='firstName' dataAlign="center">
+          First Name
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='lastName' dataAlign="center">
+          Last Name
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='type' dataAlign="center">
+          Document Type
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='nationality' dataAlign="center">
+          Nationality
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='hotel' dataAlign="center">
+          Hotel Name
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='checkIn' dataAlign="center">
+          Check In Time
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='checkOut' dataAlign="center">
+          Check Out Time
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='verified' dataAlign="center">
+          Verified
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='button' dataFormat={this.cellButton}>
+          Verify
+          </TableHeaderColumn>
+        </BootstrapTable>
         </div>
     );
   }

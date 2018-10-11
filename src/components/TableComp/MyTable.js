@@ -6,6 +6,7 @@ import '../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.cs
 
 class Table extends Component {
   render() {
+    const dataFormat=props;
     return (
       <div>
         <BootstrapTable data={this.props.data} striped={true}>
@@ -36,6 +37,9 @@ class Table extends Component {
           <TableHeaderColumn dataField='verified' dataAlign="center">
           Verified
           </TableHeaderColumn>
+          <TableHeaderColumn dataField='button' dataFormat={dataFormat}>
+       Change Status
+        </TableHeaderColumn>
         </BootstrapTable>
       </div>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 // @material-ui/core components
-import withStyles from "../../../node_modules/@material-ui/core/styles/withStyles";
-import Grid from "../../../node_modules/@material-ui/core/Grid.jsx";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid";
 
 const style = {
   grid: {
