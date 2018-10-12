@@ -16,6 +16,7 @@ class TableWithFilterData extends Component {
       this.onChangeHotel = this.onChangeHotel.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.cellButton = this.cellButton.bind(this);
+      this.columnClassNameFormat = this.columnClassNameFormat.bind(this);
       this.state = {
         Guests: [],
         firstName:'',
@@ -73,7 +74,10 @@ class TableWithFilterData extends Component {
         newGuest.verified="REJECECTED";
         console.log("StatebyId  ",newGuest );
         axios.put("http://138.68.51.48:3000/api/guest/"+id, newGuest)
-        .then(res => console.log(res.data));
+        .then(res => {
+          console.log(res.data);
+          window.location.reload();
+        });
   
       });
    }
@@ -84,6 +88,7 @@ class TableWithFilterData extends Component {
         <button 
            type="button" 
            id="verify"
+           disabled={row.varified !== "PENDING"}
            onClick={() => 
            this.onClickVerified(cell, row, rowIndex)}
         >
@@ -92,6 +97,7 @@ class TableWithFilterData extends Component {
         <button 
            type="button" 
            id="reject"
+           disabled={row.varified !== "PENDING"}
            onClick={() => 
            this.onClickRejected(cell, row, rowIndex)}
         >
@@ -99,6 +105,15 @@ class TableWithFilterData extends Component {
         </button>
       </div>
      )
+  }
+
+
+  columnClassNameFormat(fieldValue, row, rowIdx, colIdx) {
+    // fieldValue is column value
+    // row is whole row object
+    // rowIdx is index of row
+    // colIdx is index of column
+    return fieldValue === "PENDING" ? 'td-column-pending' : (fieldValue === "VERIFIED" ? 'td-column-varified' : 'td-column-rejected');
   }
 
 
@@ -248,7 +263,7 @@ class TableWithFilterData extends Component {
           <TableHeaderColumn dataField='checkOut' dataAlign="center">
           Check Out Time
           </TableHeaderColumn>
-          <TableHeaderColumn dataField='verified' dataAlign="center">
+          <TableHeaderColumn dataField='verified' dataAlign="center" columnClassName={ this.columnClassNameFormat }>
           Verified
           </TableHeaderColumn>
           <TableHeaderColumn dataField='button' dataFormat={this.cellButton}>

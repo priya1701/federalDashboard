@@ -6,3 +6,16 @@
 .btn {
     padding: 2px 12px;
 }    
+
+
+.td-column-varified{
+    background-color: #A5D6A7;
+}
+
+.td-column-rejected{
+    background-color: #EF9A9A;
+}
+
+.td-column-pending{
+    background-color: #FFE082;
+}
