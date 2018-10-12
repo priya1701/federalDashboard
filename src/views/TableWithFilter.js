@@ -23,6 +23,7 @@ class TableWithFilterData extends Component {
         lastName:'',
         hotel:''
       };
+      console.log("State in constructor:: ",this.state);
   }
 
   onClickVerified(cell, row, rowIndex){
@@ -86,18 +87,20 @@ class TableWithFilterData extends Component {
      return (
       <div className="btn-group">
         <button 
+            className="btn btn-success"
            type="button" 
            id="verify"
-           disabled={row.varified !== "PENDING"}
+           disabled={row.verified === "VERIFIED"}
            onClick={() => 
            this.onClickVerified(cell, row, rowIndex)}
         >
         <Glyphicon glyph="ok" />
         </button>
         <button 
+            className="btn btn-danger"
            type="button" 
            id="reject"
-           disabled={row.varified !== "PENDING"}
+           disabled={row.verified === "REJECECTED"}
            onClick={() => 
            this.onClickRejected(cell, row, rowIndex)}
         >
@@ -176,7 +179,6 @@ class TableWithFilterData extends Component {
     var res;
     if((this.state.firstName.length)&&(this.state.lastName.length)&&(this.state.hotel.length)){
       urlString = '{"where" :{"firstName" :"'+this.state.firstName+'","lastName" :"'+this.state.lastName+'","hotel":"'+this.state.hotel+'"}}';
-      
     }else if(this.state.firstName.length){
         urlString = '{"where" :{"firstName" :"'+this.state.firstName+'"}}';
     }else if(this.state.lastName.length){
