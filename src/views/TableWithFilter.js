@@ -49,8 +49,11 @@ class TableWithFilterData extends Component {
         newGuest.verified="VERIFIED";
         console.log("StatebyId  ",newGuest );
         axios.put("http://138.68.51.48:3000/api/guest/"+id, newGuest)
-        .then(res => console.log(res.data));
-  
+        .then(res => {
+          console.log(res.data);
+          alert("Verified Successfully!!");
+          window.location.reload();
+        });
       });
   }
 
@@ -72,11 +75,12 @@ class TableWithFilterData extends Component {
             verified: resp.data.verified
         }
         console.log("StatebyId  ",newGuest );
-        newGuest.verified="REJECECTED";
+        newGuest.verified="REJECTED";
         console.log("StatebyId  ",newGuest );
         axios.put("http://138.68.51.48:3000/api/guest/"+id, newGuest)
         .then(res => {
           console.log(res.data);
+          alert("Rejected!!");
           window.location.reload();
         });
   
@@ -100,7 +104,7 @@ class TableWithFilterData extends Component {
             className="btn btn-danger"
            type="button" 
            id="reject"
-           disabled={row.verified === "REJECECTED"}
+           disabled={row.verified === "REJECTED"}
            onClick={() => 
            this.onClickRejected(cell, row, rowIndex)}
         >
