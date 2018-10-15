@@ -17,6 +17,8 @@ class TableWithFilterData extends Component {
       this.onSubmit = this.onSubmit.bind(this);
       this.cellButton = this.cellButton.bind(this);
       this.columnClassNameFormat = this.columnClassNameFormat.bind(this);
+      this.cellButtonViewDoc = this.cellButtonViewDoc.bind(this);
+      this.onClickView = this.onClickView.bind(this);
       this.state = {
         Guests: [],
         firstName:'',
@@ -85,6 +87,24 @@ class TableWithFilterData extends Component {
         });
   
       });
+   }
+
+
+   onClickView(cell, row, rowIndex){
+
+   }
+
+
+   cellButtonViewDoc(cell,row,enumObject, rowIndex){
+    return (
+        <button 
+            className="btn btn-success"
+           type="button" 
+           id="viewDoc"
+           onClick={() => 
+           this.onClickView(cell, row, rowIndex)}
+        >View</button>
+     )
    }
   
    cellButton(cell, row, enumObject, rowIndex) {
@@ -256,6 +276,9 @@ class TableWithFilterData extends Component {
           </TableHeaderColumn>
           <TableHeaderColumn dataField='type' dataAlign="center">
           Document Type
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='buttonView' dataFormat={this.cellButtonViewDoc}>
+          Document
           </TableHeaderColumn>
           <TableHeaderColumn dataField='nationality' dataAlign="center">
           Nationality
