@@ -25,18 +25,18 @@ class TableWithFilterData extends Component {
         lastName:'',
         hotel:''
       };
-      console.log("State in constructor:: ",this.state);
+      //console.log("State in constructor:: ",this.state);
   }
 
   onClickVerified(cell, row, rowIndex){
     const id=row.guestId;
-    console.log("rowww", id);
+    //console.log("rowww", id);
   
     axios.get("http://138.68.51.48:3000/api/guest/"+id)
     .then(resp=>
       
       {
-        console.log("RESpppp", resp.data);
+        //console.log("RESpppp", resp.data);
         var newGuest = {
             firstName: resp.data.firstName,
             lastName: resp.data.lastName,
@@ -47,12 +47,12 @@ class TableWithFilterData extends Component {
             checkOut: resp.data.checkOut,
             verified: resp.data.verified
         }
-        console.log("StatebyId Before ",newGuest );
+        //console.log("StatebyId Before ",newGuest );
         newGuest.verified="VERIFIED";
-        console.log("StatebyId  ",newGuest );
+        //console.log("StatebyId  ",newGuest );
         axios.put("http://138.68.51.48:3000/api/guest/"+id, newGuest)
         .then(res => {
-          console.log(res.data);
+          //console.log(res.data);
           alert("Verified Successfully!!");
           window.location.reload();
         });
@@ -76,12 +76,12 @@ class TableWithFilterData extends Component {
             checkOut: resp.data.checkOut,
             verified: resp.data.verified
         }
-        console.log("StatebyId  ",newGuest );
+        //console.log("StatebyId  ",newGuest );
         newGuest.verified="REJECTED";
-        console.log("StatebyId  ",newGuest );
+        //console.log("StatebyId  ",newGuest );
         axios.put("http://138.68.51.48:3000/api/guest/"+id, newGuest)
         .then(res => {
-          console.log(res.data);
+          //console.log(res.data);
           alert("Rejected!!");
           window.location.reload();
         });
@@ -91,9 +91,17 @@ class TableWithFilterData extends Component {
 
 
    onClickView(cell, row, rowIndex){
-
+     console.log(row.guestId);
+     axios.get("http://138.68.51.48:8000/api/guest/"+row.guestId)
+     .then(res =>{
+        window.open(res.data.file);
+     })
+     .catch(err=>{
+        console.log(err.response.status,err.response.data);
+        window.alert("No document");
+     });
    }
-
+  //  http://138.68.51.48:8000/api/guest/"+row.guestId)
 
    cellButtonViewDoc(cell,row,enumObject, rowIndex){
     return (
@@ -103,7 +111,7 @@ class TableWithFilterData extends Component {
            id="viewDoc"
            onClick={() => 
            this.onClickView(cell, row, rowIndex)}
-        >View</button>
+        >View Document</button>
      )
    }
   
